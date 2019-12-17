@@ -219,6 +219,7 @@ The public methods you can call explicitly list below:
 * `pickObject`
 * `pickMultipleObjects`
 * `pickObjects`
+* `setViewState`
 
 We do recommend you to use the pure JavaScript version of deck.gl if you are more comfortable with an imperative programming style (e.g. `deck.setProps()`).
 

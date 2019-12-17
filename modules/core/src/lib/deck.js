@@ -302,10 +302,12 @@ export default class Deck {
   setViewState(viewState) {
     if (this.props.viewState) {
       this.props.viewState = viewState;
-    } else if (this.viewState) {
+    } else {
       this.viewState = viewState;
     }
-    this.viewManager.setProps({viewState: this._getViewState(this.props)});
+    if (this.viewManager) {
+      this.viewManager.setProps({viewState: this._getViewState(this.props)});
+    }
   }
 
   // Public API

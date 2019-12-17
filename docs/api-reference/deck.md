@@ -423,7 +423,7 @@ deck.setViewState({longitude: -122.45, latitude: 37.78, zoom: 12});
 
 If `props.viewState` is specified, `setViewState(viewState)` is equivalent to `setProps({viewState})`.
 
-If `props.viewState` is not specified, but `props.initialViewState` is, then `setViewState` updates the internally tracked view state. This is useful when the app wants to take advantage of the built-in state management of deck controllers, while needs to manipulate the view state every now and then.
+If `props.viewState` is not specified, then `setViewState` updates the internally tracked view state, resetting `props.initialViewState`. This is useful if the app wants to take advantage of the built-in state management of deck controllers, while needs to manipulate the view state every now and then.
 
 
 ##### `redraw`
