@@ -299,6 +299,15 @@ export default class Deck {
     this.stats.get('setProps Time').timeEnd();
   }
 
+  setViewState(viewState) {
+    if (this.props.viewState) {
+      this.props.viewState = viewState;
+    } else if (this.viewState) {
+      this.viewState = viewState;
+    }
+    this.viewManager.setProps({viewState: this._getViewState(this.props)});
+  }
+
   // Public API
   // Check if a redraw is needed
   // Returns `false` or a string summarizing the redraw reason

@@ -29,6 +29,9 @@ const propTypes = Deck.getPropTypes(PropTypes);
 
 const defaultProps = Deck.defaultProps;
 
+// Surface Deck methods via the React component
+const publicMethods = ['pickObject', 'pickObjects', 'pickMultipleObjects', 'setViewState'];
+
 export default class DeckGL extends React.Component {
   constructor(props) {
     super(props);
@@ -41,11 +44,6 @@ export default class DeckGL extends React.Component {
 
     // Refs
     this._containerRef = React.createRef();
-
-    // Bind public methods
-    this.pickObject = this.pickObject.bind(this);
-    this.pickMultipleObjects = this.pickMultipleObjects.bind(this);
-    this.pickObjects = this.pickObjects.bind(this);
 
     // Memoized functions
     this._extractJSXLayers = memoize(extractJSXLayers);
@@ -73,6 +71,11 @@ export default class DeckGL extends React.Component {
         })
       );
     this._updateFromProps(this.props);
+
+    // Bind public methods
+    for (const key of publicMethods) {
+      this[key] = this.deck[key].bind(this.deck);
+    }
   }
 
   // This method checks if React needs to call `render`.
@@ -105,20 +108,6 @@ export default class DeckGL extends React.Component {
 
   componentWillUnmount() {
     this.deck.finalize();
-  }
-
-  // Public API
-
-  pickObject(opts) {
-    return this.deck.pickObject(opts);
-  }
-
-  pickMultipleObjects(opts) {
-    return this.deck.pickMultipleObjects(opts);
-  }
-
-  pickObjects(opts) {
-    return this.deck.pickObjects(opts);
   }
 
   // Callbacks

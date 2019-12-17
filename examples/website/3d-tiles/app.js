@@ -30,10 +30,10 @@ export default class App extends PureComponent {
     super(props);
 
     this.state = {
-      viewState: INITIAL_VIEW_STATE,
       attributions: []
     };
 
+    this._deckRef = React.createRef();
     this._onTilesetLoad = this._onTilesetLoad.bind(this);
   }
 
@@ -49,23 +49,14 @@ export default class App extends PureComponent {
   // Recenter view to cover the new tileset, with a fly-to transition
   _centerViewOnTileset(tileset) {
     const {cartographicCenter, zoom} = tileset;
-    this.setState({
-      viewState: {
-        ...this.state.viewState,
+    this._deckRef.current.setViewState({
+      ...INITIAL_VIEW_STATE,
 
-        // Update deck.gl viewState, moving the camera to the new tileset
-        longitude: cartographicCenter[0],
-        latitude: cartographicCenter[1],
-        zoom: zoom + 1.5, // TODO - remove adjustment when Tileset3D calculates correct zoom
-        bearing: INITIAL_VIEW_STATE.bearing,
-        pitch: INITIAL_VIEW_STATE.pitch
-      }
+      // Update deck.gl viewState, moving the camera to the new tileset
+      longitude: cartographicCenter[0],
+      latitude: cartographicCenter[1],
+      zoom: zoom + 1.5 // TODO - remove adjustment when Tileset3D calculates correct zoom
     });
-  }
-
-  // Called by DeckGL when user interacts with the map
-  _onViewStateChange({viewState}) {
-    this.setState({viewState});
   }
 
   _renderTile3DLayer() {
@@ -79,17 +70,15 @@ export default class App extends PureComponent {
   }
 
   render() {
-    const {viewState} = this.state;
     const tile3DLayer = this._renderTile3DLayer();
     const {mapStyle = 'mapbox://styles/uberdata/cive485h000192imn6c6cc8fc'} = this.props;
 
     return (
       <div>
         <DeckGL
+          ref={this._deckRef}
           layers={[tile3DLayer]}
           initialViewState={INITIAL_VIEW_STATE}
-          viewState={viewState}
-          onViewStateChange={this._onViewStateChange.bind(this)}
           controller={true}
         >
           <StaticMap mapStyle={mapStyle} mapboxApiAccessToken={MAPBOX_TOKEN} preventStyleDiffing />

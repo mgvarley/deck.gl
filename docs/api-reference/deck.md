@@ -413,6 +413,19 @@ deck.setProps({...});
 
 See the Properties section on this page for more detail on which props can be set.
 
+##### `setViewState`
+
+Updates the current view state. 
+
+```js
+deck.setViewState({longitude: -122.45, latitude: 37.78, zoom: 12});
+```
+
+If `props.viewState` is specified, `setViewState(viewState)` is equivalent to `setProps({viewState})`.
+
+If `props.viewState` is not specified, but `props.initialViewState` is, then `setViewState` updates the internally tracked view state. This is useful when the app wants to take advantage of the built-in state management of deck controllers, while needs to manipulate the view state every now and then.
+
+
 ##### `redraw`
 
 Attempt to draw immediately, rather than waiting for the next draw cycle. By default, deck flushes all changes to the canvas on each animation frame. This behavior might cause the deck canvas to fall out of sync with other components if synchronous updates are required.
